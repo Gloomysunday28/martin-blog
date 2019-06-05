@@ -8,7 +8,11 @@ import App from '../containers/App'
 const RouterList: any[] = [
   {
     component: () => import('../containers/MyMovie'),
-    path: '/mymovie'
+    path: '/my/movie'
+  },
+  {
+    component: () => import('../containers/MyZhihu'),
+    path: '/my/zhihu'
   },
 ]
 

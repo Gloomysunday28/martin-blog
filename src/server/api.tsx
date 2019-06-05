@@ -7,3 +7,7 @@ interface DouBanMovie {
 export const GetDouBanMovie: DouBanMovie = (start = 1, count = 10) => {
   return axios.get('/movie/list')
 }
+
+export const GetZhiHuHot = () => {
+  return axios.get('/zhihu/hot/list')
+}
