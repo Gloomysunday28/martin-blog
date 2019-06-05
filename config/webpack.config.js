@@ -344,6 +344,7 @@ module.exports = function(webpackEnv) {
                 ),
                 
                 plugins: [
+                  require.resolve('babel-plugin-syntax-dynamic-import'),
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {

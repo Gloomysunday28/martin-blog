@@ -1,14 +1,35 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import loading from './Loading'
+import Loadable from 'react-loadable'
 
-import App from '../Containers/App'
+import App from '../containers/App'
 
-const Routers: React.SFC = () => (
+const RouterList: any[] = [
+  {
+    component: () => import('../containers/MyMovie'),
+    path: '/mymovie'
+  },
+]
+
+const RouterMap = () => (
   <Router>
-    <div>
-      <Route exact path="/" component={App}/>
-    </div>
+    <App>
+      <Switch>
+        {RouterList.map(item => (
+          <Route
+            key={item.path}
+            exact={true}
+            path={item.path}
+            component={Loadable({
+              loader: item.component,
+              loading
+            })}
+          />
+        ))}
+      </Switch>
+    </App>
   </Router>
 )
 
-export default Routers
+export default RouterMap

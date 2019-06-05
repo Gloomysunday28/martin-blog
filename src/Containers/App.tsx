@@ -22,6 +22,7 @@ class App extends React.Component<{}, defaultState> {
   onCollapse = (collapsed: boolean) : void => {
     this.setState({ collapsed });
   }
+
   render() {
     return (
       <div className="App">
@@ -38,35 +39,35 @@ class App extends React.Component<{}, defaultState> {
               <img src={HeaderLogo} alt=""/>
             </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-              <Menu.Item key="1">
+              <Menu.Item key="myEchart">
                 <Link to={''}>
-                  <Icon type="user" />
-                  <span className="nav-text">nav 1</span>
+                  <Icon type="bar-chart" />
+                  <span className="nav-text">图标统计</span>
                 </Link>
               </Menu.Item>
-              <Menu.Item key="2">
-                <Link to={''}>
-                  <Icon type="user" />
-                  <span className="nav-text">nav 1</span>
+              <Menu.Item key="myMovie">
+                <Link to={'/mymovie'}>
+                  <Icon type="video-camera" />
+                  <span className="nav-text">豆瓣电影</span>
                 </Link>
               </Menu.Item>
-              <Menu.Item key="3">
+              <Menu.Item key="myRead">
                 <Link to={''}>
-                  <Icon type="user" />
-                  <span className="nav-text">nav 1</span>
+                  <Icon type="read" />
+                  <span className="nav-text">豆瓣读书</span>
                 </Link>
               </Menu.Item>
-              <Menu.Item key="4">
+              <Menu.Item key="myRecord">
                 <Link to={''}>
-                  <Icon type="user" />
-                  <span className="nav-text">nav 1</span>
+                  <Icon type="form" />
+                  <span className="nav-text">我的笔记</span>
                 </Link>
               </Menu.Item>
-              <Menu.Item key="5">
-                <Link to={''}>
-                  <Icon type="user" />
-                  <span className="nav-text">nav 1</span>
-                </Link>
+              <Menu.Item key="myBlob">
+                <a href="https://github.com/Gloomysunday28/martin-blog" target="_blank" rel="noopener noreferrer">
+                  <Icon type="github" />
+                  <span className="nav-text">我的项目</span>
+                </a>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -79,6 +80,7 @@ class App extends React.Component<{}, defaultState> {
               />
             </Header>
             <Content style={{ margin: '24px 16px', flex: 1, background: "#fff"}}>
+              {this.props.children}
             </Content>
             <Footer style={{ background: '#fff'}}>
               Mr.Martin's Blog
