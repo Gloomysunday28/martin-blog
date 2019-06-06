@@ -46,6 +46,12 @@ const MenuItems: {}[] = [
     item: '知乎日报',
     url: '/my/zhihu'
   },
+  {
+    key: '/my/smile',
+    icon: 'smile',
+    item: 'Man: 笑一个',
+    url: '/my/smile'
+  },
 ]
 
 class App extends React.Component<{
@@ -106,7 +112,7 @@ class App extends React.Component<{
                 onClick={() => { this.onCollapse(!this.state.collapsed) }}
               />
             </Header>
-            <Content style={{ margin: '24px 16px', flex: 1, background: "#fff", overflowY: 'auto' }}>
+            <Content className="g-main" style={{ margin: '24px 16px', flex: 1, background: "#fff", overflowY: 'auto' }}>
               <Card bordered={false} bodyStyle={{ padding: 12 }}>
                 {this.props.children}
               </Card>

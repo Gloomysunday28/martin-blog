@@ -14,6 +14,14 @@ const RouterList: any[] = [
     component: () => import('../containers/MyZhihu'),
     path: '/my/zhihu'
   },
+  {
+    component: () => import('../containers/MyZhihu/detail'),
+    path: '/my/zhihu/:id'
+  },
+  {
+    component: () => import('../containers/MySmile'),
+    path: '/my/smile'
+  },
 ]
 
 const RouterMap = () => (

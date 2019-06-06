@@ -11,3 +11,19 @@ export const GetDouBanMovie: DouBanMovie = (start = 1, count = 10) => {
 export const GetZhiHuHot = () => {
   return axios.get('/zhihu/hot/list')
 }
+
+export const GetZhiHuHotDetail = (url: string) => {
+  return axios.get('/zhihu/hot/detail', {
+    params: {
+      url
+    }
+  })
+}
+
+export const GetSmile = (page: number) => {
+  return axios.get('/smile/list', {
+    params: {
+      page
+    }
+  })
+}
