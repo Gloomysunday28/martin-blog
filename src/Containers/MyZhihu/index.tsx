@@ -1,5 +1,4 @@
 import React from 'react'
-import {withRouter} from 'react-router-dom'
 import { GetZhiHuHot } from '../../server/api'
 import { ApiInterface } from '../../interface/api'
 import MasonryLayout from '../../hoc/MasonaryLayout'
@@ -14,7 +13,7 @@ interface ZhihuLists {
 }
 
 interface DefaultProps {
-  getChildRef: () => void,
+  getChildRef?: () => void,
   masonry?: React.Ref<Element>
 }
 
@@ -30,7 +29,7 @@ class Zhihu extends React.Component<RouterProps & DefaultProps> {
       this.setState(() => ({
         zhihuList: res.data
       }), () => {
-        this.props.getChildRef() // 瀑布流
+        this.props.getChildRef && this.props.getChildRef() // 瀑布流
       })
     })
   }
@@ -53,4 +52,4 @@ class Zhihu extends React.Component<RouterProps & DefaultProps> {
   }
 }
 
-export default MasonryLayout(withRouter(Zhihu))
+export default MasonryLayout(Zhihu)

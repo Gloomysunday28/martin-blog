@@ -24,6 +24,8 @@ const RouterList: any[] = [
   },
 ]
 
+console.log(RouterList);
+
 const RouterMap = () => (
   <Router>
     <App>

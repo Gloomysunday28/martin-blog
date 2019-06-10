@@ -44,15 +44,10 @@ class Smile extends React.Component<RouterProps & DefaultProps> {
       this.setState((state: any) => ({
         smileList: [...state.smileList, ...res.data.data.list]
       }), () => {
-        this.props.getChildRef() // 瀑布流
-        this.props.getNext() // 获取下一个
+        this.props.getChildRef && this.props.getChildRef() // 瀑布流
+        this.props.getNext && this.props.getNext() // 获取下一个
       })
     })
-  }
-
-  ToDetail = (url: string, id: number) : void => {
-    window.sessionStorage.setItem('zhde', url)
-    this.props.history.push('/my/zhihu/' + id)
   }
 
   // 获取实例
@@ -64,7 +59,7 @@ class Smile extends React.Component<RouterProps & DefaultProps> {
     return <Suspense fallback={<Loading />}>
       <div ref={this.getRef} className="grid" style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', margin: '0 auto'}}>
         {this.state.smileList.map((_: SmileLists, index: number) => (
-          <Card className="grid-item" key={index} hoverable bordered={false} style={{width: 200, margin: '20'}} >
+          <Card className="grid-item" key={index} hoverable bordered={false} style={{width: 200, margin: 20}} >
             <div style={{textAlign: 'left', fontSize: 12, marginBottom: 10, borderBottom: '1px solid #ccc'}}>
               更新时间: {_.updateTime}
             </div>

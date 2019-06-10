@@ -37,6 +37,7 @@ type Istate = {
 const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.ComponentType<T> ) : React.ComponentType<T> => (
   class extends React.Component<T, Istate> {
     private childRef: any
+    private OMain: any
     inputRef: any
     finish: boolean = false
 
@@ -52,14 +53,16 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
     }
 
     getRef = (e: React.RefObject<HTMLInputElement>) => {
-      let scrollEvent = throttle(this.scrollEvent, 1000)
-
-      let OMain: any = document.querySelector('.g-main')
-      OMain.addEventListener('scroll', () => {
-        scrollEvent(OMain)
-      }, {
+      this.OMain = document.querySelector('.g-main')
+      this.OMain.addEventListener('scroll', this.getThrottleEvent, {
         passive: true
       })
+    }
+
+    getThrottleEvent = () => {
+      let scrollEvent = throttle(this.scrollEvent, 1000)
+
+      scrollEvent(this.OMain)
     }
 
     getNext = () => {
@@ -89,6 +92,10 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
           }
         }
       }
+    }
+
+    componentWillUnmount() {
+      this.OMain.removeEventListener('scroll', this.getThrottleEvent)
     }
 
     render() {

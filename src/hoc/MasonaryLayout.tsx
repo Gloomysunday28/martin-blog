@@ -10,7 +10,7 @@ const MasonryLayout = <T extends object>(WrapperComponent: React.ComponentType<T
         fitWidth: true
       })
     }
-
+    
     render() {
       const commonProps = {getChildRef: this.getChildRef, ...this.state, ...this.props}
       return <WrapperComponent {...commonProps}/>
