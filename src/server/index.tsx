@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {message} from 'antd'
 
 const Axios = axios.create({
   // baseURL: 'http://111.231.55.237:3001',
@@ -13,7 +14,7 @@ interface Configs {
 Axios.interceptors.request.use((config: Configs) => {
   if (!config.url.includes('register') && !config.url.includes('login')) {
     config.headers = {
-      Authorization: 'Bearer ' + window.localStorage.access_token
+      Authorization: 'Bearer ' + window.localStorage.token
     }
   }
 
@@ -22,18 +23,20 @@ Axios.interceptors.request.use((config: Configs) => {
   return Promise.reject(error)
 })
 
-// Axios.interceptors.response.use((response) => {
-//   // Do something with response data
-//   return response
-// }, (error) => {
-//   if (error.response && error.response.status === 401) {
-//     return void router.replace({name: 'MartinLogin'})
-//   }
-//   if (error.response && error.response.status === 500) {
-//     return void martin.$message.error(error.response.data.message)
-//   }
-//   // Do something with response error
-//   return Promise.reject(error)
-// })
+Axios.interceptors.response.use((response) => {
+  // Do something with response data
+  return response
+}, (error) => {
+  if (error.response && error.response.status === 401) {
+    window.localStorage.removeItem('token')
+    window.location.href = '/#/login'
+    return void window.location.reload()
+  }
+  if (error.response && error.response.status === 500) {
+    return void message.error(error.response.data.message)
+  }
+  // Do something with response error
+  return Promise.reject(error)
+})
 
 export default Axios

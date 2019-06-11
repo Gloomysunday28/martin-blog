@@ -25,13 +25,26 @@ class Zhihu extends React.Component<RouterProps & DefaultProps> {
   }
 
   componentWillMount() {
-    GetZhiHuHot().then((res: ApiInterface) : any => {
+    if (window.sessionStorage.zhHot) {
       this.setState(() => ({
-        zhihuList: res.data
-      }), () => {
-        this.props.getChildRef && this.props.getChildRef() // 瀑布流
+        zhihuList: JSON.parse(window.sessionStorage.zhHot)
+      }), this.getMasonryLayout)
+    } else {
+      GetZhiHuHot().then((res: ApiInterface) : any => {
+        this.setState(() => ({
+          zhihuList: res.data
+        }), () => {
+          window.sessionStorage.setItem('zhHot', JSON.stringify(res.data))
+          this.getMasonryLayout()
+        })
       })
-    })
+    }
+  }
+
+  getMasonryLayout = () => {
+    setTimeout(_ => {
+      this.props.getChildRef && this.props.getChildRef() // 瀑布流
+    }, 100)
   }
 
   ToDetail = (url: string, id: number) : void => {

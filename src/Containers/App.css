@@ -31,6 +31,12 @@ img {
   font-size: 20px;
 }
 
+.c-weather {
+  width: auto;
+  height: 50px;
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: 0;
   opacity: 1;
@@ -56,4 +62,75 @@ img {
 
 .ant-menu-item {
   padding: 0 !important;
+}
+
+.ant-popover-inner-content {
+  width: 200px;
+  padding: 0px 16px 12px;
+  background: none;
+}
+
+.ant-popover-inner {
+  background: linear-gradient(#2869e9, #79bfff);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.c-weather__update {
+  margin-left: 5px;
+  color: hsla(0,0%,100%,.6);
+}
+
+.c-weather__info {
+  display: flex;
+  align-items: center;
+}
+
+.c-weather__tempture {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.c-weather__temp {
+  font-family: Avenir Next,PingFang SC,Helverica-light,Segoe UI,Century Gothic,Arial;
+  font-size: 48px;
+}
+
+.c-weather__msg {
+  font-family: PingFang SC,Microsoft YaHei UI Light,STHeitiSC-Light,Microsoft YaHei UI,Microsoft YaHei;
+  text-align: center;
+}
+
+.c-login__container {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background: url('../assets/imgs/bg.JPG') no-repeat center/cover;
+  background-attachment: fixed;
+}
+
+.c-login__box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 400px;
+  height: 260px;
+}
+
+.c-login__jx {
+  height: 30vh;
+  border-radius: 10px 10px 0 0 ;
+  background: #fff;
+}
+
+.c-login__title {
+  margin-bottom: 20px;
+}
+
+.c-logout {
+  margin-left: 20px;
 }

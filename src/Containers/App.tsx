@@ -2,17 +2,26 @@ import React from 'react';
 import './App.css';
 import { NavLink, withRouter } from 'react-router-dom'
 import HeaderLogo from '../assets/imgs/header.webp'
+import { ApiInterface } from '../interface/api'
 import {
   Layout,
   Menu,
   Icon,
-  Card
+  Card,
+  Popover,
+  Dropdown
 } from 'antd'
+import weather from '../utils/weather'
+import {GetWeather} from '../server/api'
 
 const { Header, Footer, Sider, Content } = Layout;
 
+const { SubMenu }  = Menu;
+
 type defaultState = {
-  collapsed: boolean
+  collapsed: boolean,
+  heart: string,
+  weather: any
 }
 
 const MenuItems: {}[] = [
@@ -35,12 +44,6 @@ const MenuItems: {}[] = [
     url: '/my/read'
   },
   {
-    key: '/my/record',
-    icon: 'form',
-    item: '我的笔记',
-    url: '/my/record'
-  },
-  {
     key: '/my/zhihu',
     icon: 'zhihu',
     item: '知乎日报',
@@ -54,13 +57,55 @@ const MenuItems: {}[] = [
   },
 ]
 
+interface IWeather extends ApiInterface {
+  data: {
+    results: [{
+      now: object,
+      location: object,
+      last_update: string
+    }]
+  }
+}
+
 class App extends React.Component<{
   location: any,
   match: any,
   history: any
 }, defaultState> {
-  state = {
-    collapsed: false
+  private menu: React.ReactNode
+  readonly state = {
+    collapsed: false,
+    heart: 'frown',
+    weather: {
+      now: {
+        code: 99,
+        temperature: '',
+        text: ''
+      },
+      location: {
+        name: ''
+      },
+      last_update: ''
+    }
+  }
+
+  componentWillMount() {
+    this.menu = (<Menu>
+      <Menu.Item>
+        <p onClick={this.LogOut}>退出登录</p>
+      </Menu.Item>
+    </Menu>)
+    GetWeather().then((res: IWeather) => {
+      this.setState(() => ({
+        weather: (res.data.results || [1])[0]
+      }))
+    })
+  }
+
+  LogOut = () => {
+    window.localStorage.removeItem('token')
+    window.location.href = '/#/login'
+    window.location.reload()
   }
 
   onCollapse = (collapsed: boolean): void => {
@@ -92,6 +137,28 @@ class App extends React.Component<{
                   </NavLink>
                 </Menu.Item>
               ))}
+              <SubMenu
+                key="blog"
+                title={
+                  <span>
+                    <Icon type='medium' />
+                    <span>Martin的心情</span>
+                  </span>
+                }
+              >
+                <Menu.Item key="blog-record">
+                  <NavLink to="/my/record">
+                    <Icon type="form" />
+                    <span className="nav-text">我的笔记</span>
+                  </NavLink>
+                </Menu.Item>
+                <Menu.Item key="blog-mood">
+                  <NavLink to="/my/mood">
+                    <Icon type="medium" />
+                    <span className="nav-text">我的心情</span>
+                  </NavLink>
+                </Menu.Item>
+              </SubMenu>
               <Menu.Item key="myBlob">
                 <a href="https://github.com/Gloomysunday28/martin-blog" target="_blank" rel="noopener noreferrer">
                   <Icon type="github" />
@@ -101,12 +168,39 @@ class App extends React.Component<{
             </Menu>
           </Sider>
           <Layout style={{ height: '100vh' }}>
-            <Header style={{ background: '#fff', padding: '0 20px', textAlign: 'left' }}>
+            <Header style={{ background: '#fff', padding: '0 20px', textAlign: 'left' , display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <Icon
                 className="c-trigger"
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={() => { this.onCollapse(!this.state.collapsed) }}
               />
+              <section style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <Popover placement="topLeft" content={
+                  <Card bordered={false} bodyStyle={{padding: 0}} style={{padding: 0, background: 'none', color: '#fff'}}>
+                    <div>
+                      <p style={{margin: '10px 0 !important'}}>
+                        {this.state.weather.location.name}
+                        <span className="c-weather__update">{this.state.weather.last_update.split(/[T|+]/)[1]}更新</span>
+                      </p>
+                      <section className="c-weather__info">
+                        <img className="c-weather" src={weather[this.state.weather.now.code]} alt=""/>
+                        <div className="c-weather__tempture">
+                          <span className="c-weather__temp">{this.state.weather.now.temperature}<span style={{fontSize: 25, marginLeft: 5}}>℃</span></span>
+                          <span className="c-weather__msg">{this.state.weather.now.text}</span>
+                        </div>
+                      </section>
+                    </div>
+                  </Card>
+                }>
+                  <img className="c-weather" src={weather[this.state.weather.now.code]} alt=""/>
+                </Popover>
+                <Dropdown placement="bottomLeft" overlay={this.menu} className="c-logout">
+                  <Icon
+                    className="c-trigger"
+                    type={this.state.heart}
+                  />
+                </Dropdown>
+              </section>
             </Header>
             <Content className="g-main" style={{ margin: '24px 16px', flex: 1, background: "#fff", overflowY: 'auto' }}>
               <Card bordered={false} bodyStyle={{ padding: 12 }}>

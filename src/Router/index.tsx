@@ -4,6 +4,7 @@ import loading from './Loading'
 import Loadable from 'react-loadable'
 
 import App from '../containers/App'
+import Login from '../containers/Login'
 
 const RouterList: any[] = [
   {
@@ -26,11 +27,19 @@ const RouterList: any[] = [
     component: () => import('../containers/MyCharts'),
     path: '/my/chart'
   },
+  {
+    component: () => import('../containers/MyRecord'),
+    path: '/my/record'
+  },
+  {
+    component: () => import('../containers/MyRecord/detail'),
+    path: '/my/record/:id'
+  },
 ]
 
 const RouterMap = () => (
   <Router>
-    <App>
+    {window.localStorage.token ? <App>
       <Switch>
         {RouterList.map(item => (
           <Route
@@ -44,7 +53,7 @@ const RouterMap = () => (
           />
         ))}
       </Switch>
-    </App>
+    </App> : <Login />}
   </Router>
 )
 

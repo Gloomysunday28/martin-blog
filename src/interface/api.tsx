@@ -1,3 +1,3 @@
 export interface ApiInterface{
-  data?: object
+  data?: object,
 }

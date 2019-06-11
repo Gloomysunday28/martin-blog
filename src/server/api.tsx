@@ -27,3 +27,25 @@ export const GetSmile = (page: number) => {
     }
   })
 }
+
+export const GetWeather = () => {
+  return axios.get('/weather')
+}
+
+export const GetRecord = (page: number) => {
+  return axios.get('/article/list', {
+    params: {
+      page,
+      pageSize: 10
+    }
+  })
+}
+
+export const GetLogin = (username: string, password: string) => {
+  return axios.get('/login', {
+    params: {
+      username,
+      password
+    }
+  })
+}
