@@ -22,9 +22,11 @@ const RouterList: any[] = [
     component: () => import('../containers/MySmile'),
     path: '/my/smile'
   },
+  {
+    component: () => import('../containers/MyCharts'),
+    path: '/my/chart'
+  },
 ]
-
-console.log(RouterList);
 
 const RouterMap = () => (
   <Router>

@@ -17,10 +17,10 @@ type defaultState = {
 
 const MenuItems: {}[] = [
   {
-    key: '/my/echart',
+    key: '/my/chart',
     icon: 'bar-chart',
     item: '图标统计',
-    url: '/my/echart'
+    url: '/my/chart'
   },
   {
     key: '/my/movie',
@@ -61,10 +61,6 @@ class App extends React.Component<{
 }, defaultState> {
   state = {
     collapsed: false
-  }
-
-  componentDidMount() {
-    console.log(this.props.location.pathname);
   }
 
   onCollapse = (collapsed: boolean): void => {
