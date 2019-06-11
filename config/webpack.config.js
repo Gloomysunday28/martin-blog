@@ -25,6 +25,8 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const HappyPack = require('happypack')
+const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -53,8 +55,8 @@ module.exports = function(webpackEnv) {
   // It requires a trailing slash, or the file assets will get an incorrect path.
   // In development, we always serve from the root. This makes config easier.
   const publicPath = isEnvProduction
-    ? paths.servedPath
-    : isEnvDevelopment && '/';
+    ?  './'
+    : isEnvDevelopment && './';
   // Some apps do not use client-side routing with pushState.
   // For these, "homepage" can be set to "." to enable relative asset paths.
   const shouldUseRelativeAssetPaths = publicPath === './';
@@ -149,7 +151,7 @@ module.exports = function(webpackEnv) {
     ].filter(Boolean),
     output: {
       // The build folder.
-      path: isEnvProduction ? paths.appBuild : undefined,
+      path: isEnvProduction ? path.resolve(__dirname, '../dist') : undefined,
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
@@ -485,6 +487,20 @@ module.exports = function(webpackEnv) {
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
+      new HappyPack({
+        id: 'babel',
+        // 如何处理 .js 文件，用法和 Loader 配置中一样
+        loaders: ['babel-loader?cacheDirectory'],
+        // 使用共享进程池中的子进程去处理任务
+        threadPool: happyThreadPool,
+      }),
+      new HappyPack({
+        id: 'css',
+        // 如何处理 .js 文件，用法和 Loader 配置中一样
+        loaders: ['css-loader'],
+        // 使用共享进程池中的子进程去处理任务
+        threadPool: happyThreadPool,
+      }),
       new HtmlWebpackPlugin(
         Object.assign(
           {},

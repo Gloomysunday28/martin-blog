@@ -1,11 +1,16 @@
 import axios from 'axios'
 
 const Axios = axios.create({
+  // baseURL: 'http://111.231.55.237:3001',
   baseURL: 'http://127.0.0.1:3001',
   timeout: 10000
 })
 
-Axios.interceptors.request.use((config: any) => {
+interface Configs {
+  [propName: string]: any
+}
+
+Axios.interceptors.request.use((config: Configs) => {
   if (!config.url.includes('register') && !config.url.includes('login')) {
     config.headers = {
       Authorization: 'Bearer ' + window.localStorage.access_token

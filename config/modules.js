@@ -11,7 +11,7 @@ const chalk = require('react-dev-utils/chalk');
  * @param {Object} options
  */
 function getAdditionalModulePaths(options = {}) {
-  const baseUrl = options.baseUrl;
+  const baseUrl = options.baseUrl.includes('node_modules') ? './node_modules' : './src';
 
   // We need to explicitly check for null and undefined (and not a falsy value) because
   // TypeScript treats an empty string as `.`.
