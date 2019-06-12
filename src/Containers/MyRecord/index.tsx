@@ -6,7 +6,7 @@ import {
 } from 'antd'
 import ScrollLoading from '../../hoc/ScrollLoading'
 
-class MyRecord extends React.Component<{GetTotal: () => void}, {
+class MyRecord extends React.Component<{getRef: () => void}, {
   records: any
 }> {
   readonly state = {
@@ -17,7 +17,7 @@ class MyRecord extends React.Component<{GetTotal: () => void}, {
       this.setState(() => ({
         records: res.data.items
       }), () => {
-        this.props.GetTotal && this.props.GetTotal()
+        this.props.getRef && this.props.getRef()
       })
     })
   }

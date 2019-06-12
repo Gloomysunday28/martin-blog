@@ -124,9 +124,6 @@ class MyCharts extends React.Component<{}, {
   }
 
   render() {
-    const ds = new DataSet();
-    const dv = ds.createView().source(data)
-
     return <Card bordered={false}>
       <Button style={{float: 'right'}} disabled={this.state.isCheckIn} type="dashed" icon="heart" onClick={this.CheckIn}>打卡签到</Button>
       <Card title="每年的幸福指数占比" style={{width: '85%'}} bordered={false}>

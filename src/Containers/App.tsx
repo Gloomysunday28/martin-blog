@@ -90,12 +90,12 @@ class App extends React.Component<{
   }
 
   componentWillMount() {
-    console.log(this.props);
     this.menu = (<Menu>
       <Menu.Item>
         <p onClick={this.LogOut}>退出登录</p>
       </Menu.Item>
     </Menu>)
+    
     GetWeather().then((res: IWeather) => {
       this.setState(() => ({
         weather: (res.data.results || [1])[0]
