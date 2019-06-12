@@ -47,7 +47,7 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
       this.childRef = React.createRef()
     }
 
-    state = {
+    readonly state = {
       page: 1,
       next: true
     }
@@ -81,7 +81,7 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
       if (this.state.next) {
         if (clientHeight + scrollTop + 200 > scrollHeight) {
           if (this.finish) {
-
+            
           } else {
             this.setState((state: Istate) => ({
               next: false,

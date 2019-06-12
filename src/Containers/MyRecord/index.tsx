@@ -4,8 +4,9 @@ import {NavLink} from 'react-router-dom'
 import {
   Card
 } from 'antd'
+import ScrollLoading from '../../hoc/ScrollLoading'
 
-class MyRecord extends React.Component<{}, {
+class MyRecord extends React.Component<{GetTotal: () => void}, {
   records: any
 }> {
   readonly state = {
@@ -15,14 +16,16 @@ class MyRecord extends React.Component<{}, {
     GetRecord(1).then((res: any) => {
       this.setState(() => ({
         records: res.data.items
-      }))
+      }), () => {
+        this.props.GetTotal && this.props.GetTotal()
+      })
     })
   }
   render() {
     return <div>
       {this.state.records.map(<T extends Partial<{[propsName: string]: any}>>(_: T) => (
-        <NavLink to={`/my/record/${_._id}`}>
-          <Card hoverable bordered={false} key={_._id} title={_.title} style={{marginBottom: 10, textAlign: 'left'}}>
+        <NavLink to={`/my/record/${_._id}`} key={_._id}>
+          <Card hoverable bordered={false} title={_.title} style={{marginBottom: 10, textAlign: 'left'}}>
             更新时间 {_.createOn.split(/[T|]/)[0]}
             {_.isTop && <span style={{color: 'red', textAlign: 'right', float: 'right', fontWeight: 'bold'}}>置顶</span>}
           </Card>
@@ -32,4 +35,4 @@ class MyRecord extends React.Component<{}, {
   }
 }
 
-export default MyRecord
+export default ScrollLoading(MyRecord)

@@ -73,6 +73,7 @@
     "terser-webpack-plugin": "1.2.3",
     "ts-pnp": "1.1.2",
     "typescript": "3.5.1",
+    "underscore": "^1.9.1",
     "url-loader": "1.1.2",
     "webpack": "4.29.6",
     "webpack-dev-server": "3.2.1",
@@ -152,6 +153,7 @@
   "devDependencies": {
     "@types/react-loadable": "^5.5.1",
     "babel-plugin-import": "^1.12.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "happypack": "^5.0.1",
     "image-webpack-loader": "^5.0.0",
     "mockjs": "^1.0.1-beta3",

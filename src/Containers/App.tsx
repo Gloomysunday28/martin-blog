@@ -90,6 +90,7 @@ class App extends React.Component<{
   }
 
   componentWillMount() {
+    console.log(this.props);
     this.menu = (<Menu>
       <Menu.Item>
         <p onClick={this.LogOut}>退出登录</p>
@@ -127,7 +128,7 @@ class App extends React.Component<{
             <div className={`c-martin__logo ${this.state.collapsed && "c-martin__collapsed"}`}>
               <img src={HeaderLogo} alt="" />
             </div>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={[this.props.location.pathname]}>
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={[this.props.location.pathname]} defaultOpenKeys={[this.props.location.pathname]}>
               {MenuItems.map((_: any) => (
                 <Menu.Item key={_.key}>
                   <NavLink to={_.url}>
@@ -138,7 +139,7 @@ class App extends React.Component<{
                 </Menu.Item>
               ))}
               <SubMenu
-                key="blog"
+                key="/my/record"
                 title={
                   <span>
                     <Icon type='medium' />
@@ -146,7 +147,7 @@ class App extends React.Component<{
                   </span>
                 }
               >
-                <Menu.Item key="blog-record">
+                <Menu.Item key="/my/record">
                   <NavLink to="/my/record">
                     <Icon type="form" />
                     <span className="nav-text">我的笔记</span>
