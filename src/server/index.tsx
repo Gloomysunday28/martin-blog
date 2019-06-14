@@ -2,8 +2,8 @@ import axios from 'axios'
 import {message} from 'antd'
 
 const Axios = axios.create({
-  // baseURL: 'http://111.231.55.237:3001',
-  baseURL: 'http://127.0.0.1:3001',
+  baseURL: 'http://111.231.55.237:3001',
+  // baseURL: 'http://127.0.0.1:3001',
   timeout: 10000
 })
 
