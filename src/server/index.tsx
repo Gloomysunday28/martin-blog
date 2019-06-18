@@ -18,7 +18,7 @@ interface Configs {
 type PickConfig = Picks<Configs, 'url' | 'headers'>
 
 Axios.interceptors.request.use((config: Partial<PickConfig>) => {
-  if (!config.url.includes('register') && !config.url.includes('login')) {
+  if (!config!.url.includes('register') && !config!.url.includes('login')) {
     config.headers = {
       Authorization: 'Bearer ' + window.localStorage.token
     }
