@@ -41,6 +41,10 @@ export const GetRecord = (page: number) => {
   })
 }
 
+export const GetArticleDetail = (id: string) => {
+  return axios.get('/article/detail/' + id)
+}
+
 export const GetLogin = (username: string, password: string) => {
   return axios.get('/login', {
     params: {

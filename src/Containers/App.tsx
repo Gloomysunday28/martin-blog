@@ -9,19 +9,21 @@ import {
   Icon,
   Card,
   Popover,
-  Dropdown
+  Dropdown,
+  Breadcrumb
 } from 'antd'
 import weather from '../utils/weather'
 import {GetWeather} from '../server/api'
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const { SubMenu }  = Menu;
+// const { SubMenu }  = Menu;
 
 type defaultState = {
   collapsed: boolean,
   heart: string,
-  weather: any
+  weather: any,
+  breadPages: string[]
 }
 
 const MenuItems: {}[] = [
@@ -55,7 +57,23 @@ const MenuItems: {}[] = [
     item: 'Man: 笑一个',
     url: '/my/smile'
   },
+  {
+    key: '/my/mood',
+    icon: 'medium',
+    item: 'Martin: 心情',
+    url: '/my/mood'
+  },
+  {
+    key: '/my/record',
+    icon: 'form',
+    item: 'Martin: 笔记',
+    url: '/my/record'
+  },
 ]
+
+interface Breadcrumbs {
+  url?: string
+}
 
 interface IWeather extends ApiInterface {
   data: {
@@ -86,21 +104,33 @@ class App extends React.Component<{
         name: ''
       },
       last_update: ''
-    }
+    },
+    breadPages: []
   }
 
   componentWillMount() {
     this.menu = (<Menu>
       <Menu.Item>
-        <p onClick={this.LogOut}>退出登录</p>
+        <span onClick={this.LogOut}>退出登录</span>
       </Menu.Item>
     </Menu>)
-    
+
+    this.getBread()
     GetWeather().then((res: IWeather) => {
       this.setState(() => ({
         weather: (res.data.results || [1])[0]
       }))
     })
+  }
+
+  getBread = () => { // 获取面包屑
+    const breadPages: any = MenuItems.find(<T extends Breadcrumbs>(v: T): boolean => v!.url === this.props.location.pathname)
+
+    if (breadPages) {
+      this.setState(() => ({
+        breadPages: [breadPages.item || '']
+      }))
+    }
   }
 
   LogOut = () => {
@@ -114,6 +144,8 @@ class App extends React.Component<{
   }
 
   render() {
+    const {breadPages} = this.state
+
     return (
       <div className="App">
         <Layout>
@@ -138,7 +170,7 @@ class App extends React.Component<{
                   </NavLink>
                 </Menu.Item>
               ))}
-              <SubMenu
+              {/* <SubMenu
                 key="/my/record"
                 title={
                   <span>
@@ -159,7 +191,7 @@ class App extends React.Component<{
                     <span className="nav-text">我的心情</span>
                   </NavLink>
                 </Menu.Item>
-              </SubMenu>
+              </SubMenu> */}
               <Menu.Item key="myBlob">
                 <a href="https://github.com/Gloomysunday28/martin-blog" target="_blank" rel="noopener noreferrer">
                   <Icon type="github" />
@@ -169,9 +201,10 @@ class App extends React.Component<{
             </Menu>
           </Sider>
           <Layout style={{ height: '100vh' }}>
-            <Header style={{ background: '#fff', padding: '0 20px', textAlign: 'left' , display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Header style={{ background: '#001529', padding: '0 20px', textAlign: 'left' , display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <Icon
                 className="c-trigger"
+                style={{color: '#fff'}}
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={() => { this.onCollapse(!this.state.collapsed) }}
               />
@@ -197,13 +230,23 @@ class App extends React.Component<{
                 </Popover>
                 <Dropdown placement="bottomLeft" overlay={this.menu} className="c-logout">
                   <Icon
+                    style={{color: '#fff'}}
                     className="c-trigger"
                     type={this.state.heart}
                   />
                 </Dropdown>
               </section>
             </Header>
-            <Content className="g-main" style={{ margin: '24px 16px', flex: 1, background: "#fff", overflowY: 'auto' }}>
+            <Breadcrumb style={{textAlign: 'left', padding: '20px 0 0 20px'}}>
+              {breadPages.map(bread => {
+                return <Breadcrumb.Item key={bread}>
+                  <NavLink to={this.props.location.pathname}>
+                    {bread}
+                  </NavLink>
+                </Breadcrumb.Item>
+              })}
+            </Breadcrumb>
+            <Content className="g-main" style={{ margin: '12px 16px 24px', flex: 1, background: "#fff", overflowY: 'auto' }}>
               <Card bordered={false} bodyStyle={{ padding: 12 }}>
                 {this.props.children}
               </Card>

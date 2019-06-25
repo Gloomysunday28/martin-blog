@@ -1,19 +1,26 @@
 import React, { Suspense, lazy } from 'react'
-import { GetZhiHuHotDetail } from '../../server/api'
+import { RouterProps }from '../../interface/router'
+import { GetArticleDetail } from '../../server/api'
+import './detail.css'
 
 const Loading = lazy(() => import('../../router/Loading'))
 
-class RecordDetail extends React.Component {
+class RecordDetail extends React.Component<RouterProps, {
+  detail: {}
+}> {
   readonly state = {
     detail: {
-      body: '',
-      css: []
+      content: '',
+      title: '',
+      username: '',
+      isTop: false,
+      createOn: ''
     }
   }
 
   componentWillMount() {
-    const detail = window.sessionStorage.zhde
-    GetZhiHuHotDetail(detail).then((res) => {
+    const detail = this.props.match.params.id
+    GetArticleDetail(detail).then((res) => {
       this.setState(() => ({
         detail: res.data
       }))
@@ -21,8 +28,18 @@ class RecordDetail extends React.Component {
   }
   
   render() {
+    const { detail } = this.state
+
     return <Suspense fallback={<Loading />}>
-      <div dangerouslySetInnerHTML={{__html: this.state.detail.body}}>
+      <div style={{textAlign: 'left'}}>
+        <div className="c-record__detail--title">
+          <h3>{detail.title}</h3>
+          <span className="c-record__detail--author">作者: {detail.username}</span>
+          <span>创作时间: {detail.createOn.split('T')[0]}</span>
+          {detail.isTop && <strong style={{float: 'right', color: '#F23545'}}>置顶</strong>}
+        </div>
+        <div style={{padding: 10}} dangerouslySetInnerHTML={{__html: detail.content}}>
+        </div>
       </div>
     </Suspense> 
   }

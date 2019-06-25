@@ -1,0 +1,9 @@
+.c-record__detail--title {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.c-record__detail--author {
+  margin-right: 30px;
+}

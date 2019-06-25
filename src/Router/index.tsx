@@ -6,34 +6,50 @@ import Loadable from 'react-loadable'
 import App from '../containers/App'
 import Login from '../containers/Login'
 
-const RouterList: any[] = [
+const RouterList: {
+  path: string,
+  component: () => any,
+  meta: string
+}[] = [
   {
     component: () => import('../containers/MyMovie'),
-    path: '/my/movie'
+    path: '/my/movie',
+    meta: '豆瓣电影'
   },
   {
     component: () => import('../containers/MyZhihu'),
-    path: '/my/zhihu'
+    path: '/my/zhihu',
+    meta: '知乎日报'
   },
   {
     component: () => import('../containers/MyZhihu/detail'),
-    path: '/my/zhihu/:id'
+    path: '/my/zhihu/:id',
+    meta: ''
   },
   {
     component: () => import('../containers/MySmile'),
-    path: '/my/smile'
+    path: '/my/smile',
+    meta: 'Man: 笑一个'
   },
   {
     component: () => import('../containers/MyCharts'),
-    path: '/my/chart'
+    path: '/my/chart',
+    meta: '图标统计'
   },
   {
     component: () => import('../containers/MyRecord'),
-    path: '/my/record'
+    path: '/my/record',
+    meta: 'Martin: 笔记'
   },
   {
     component: () => import('../containers/MyRecord/detail'),
-    path: '/my/record/:id'
+    path: '/my/record/:id',
+    meta: ''
+  },
+  {
+    component: () => import('../containers/MyMood'),
+    path: '/my/mood',
+    meta: ''
   },
 ]
 
