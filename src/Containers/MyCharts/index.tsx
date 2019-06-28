@@ -87,6 +87,7 @@ class MyCharts extends React.Component<{}, {
     },
     isCheckIn: false
   }
+
   componentDidMount() {
     GetZhiHuHot().then((res: ZhiHuIApi) : any => {
       this.setState(() => ({

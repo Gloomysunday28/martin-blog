@@ -14,6 +14,8 @@ import {
 } from 'antd'
 import weather from '../utils/weather'
 import {GetWeather} from '../server/api'
+import {Provider } from 'mobx-react'
+import { appState } from '../store'
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -248,7 +250,9 @@ class App extends React.Component<{
             </Breadcrumb>
             <Content className="g-main" style={{ margin: '12px 16px 24px', flex: 1, background: "#fff", overflowY: 'auto' }}>
               <Card bordered={false} bodyStyle={{ padding: 12 }}>
-                {this.props.children}
+                <Provider appState={appState}>
+                  {this.props.children}
+                </Provider>
               </Card>
             </Content>
             <Footer style={{ background: '#fff' }}>

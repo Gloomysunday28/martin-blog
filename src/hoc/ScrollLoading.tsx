@@ -78,7 +78,7 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
 
       const {current} = this.childRef
 
-      if (this.state.next && current.getData) {
+      if (this.state.next && current &&current.getData) {
         if (clientHeight + scrollTop + 200 > scrollHeight) {
           if (this.finish) {
             

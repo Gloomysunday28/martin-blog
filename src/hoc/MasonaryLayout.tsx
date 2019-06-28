@@ -1,6 +1,8 @@
 import React from 'react'
 import Masonry from 'masonry-layout'
 
+import {appState} from '../store'
+
 const MasonryLayout = <T extends object>(WrapperComponent: React.ComponentType<T>): React.ComponentType<T> => (
   class extends React.Component<T> {
     getChildRef() {
@@ -12,7 +14,7 @@ const MasonryLayout = <T extends object>(WrapperComponent: React.ComponentType<T
     }
     
     render() {
-      const commonProps = {getChildRef: this.getChildRef, ...this.state, ...this.props}
+      const commonProps = {appState, getChildRef: this.getChildRef, ...this.state, ...this.props}
       return <WrapperComponent {...commonProps}/>
     }
   }
