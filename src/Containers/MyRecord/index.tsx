@@ -1,29 +1,17 @@
 import React from 'react'
-import { GetRecord } from '../../server/api'
 import {NavLink} from 'react-router-dom'
 import {
   Card
 } from 'antd'
 import ScrollLoading from '../../hoc/ScrollLoading'
+import records from '../../store/MyRecord'
+import {observer} from 'mobx-react'
 
-class MyRecord extends React.Component<{getRef: () => void}, {
-  records: any
-}> {
-  readonly state = {
-    records: []
-  }
-  componentWillMount() {
-    GetRecord(1).then((res: any) => {
-      this.setState(() => ({
-        records: res.data.items
-      }), () => {
-        this.props.getRef && this.props.getRef()
-      })
-    })
-  }
+@observer
+class MyRecord extends React.Component<{getRef: () => void}, {}> {
   render() {
     return <div>
-      {this.state.records.map(<T extends Partial<{[propsName: string]: any}>>(_: T) => (
+      {records.map(<T extends Partial<{[propsName: string]: any}>>(_: T) => (
         <NavLink to={`/my/record/${_._id}`} key={_._id}>
           <Card hoverable bordered={false} title={_.title} style={{marginBottom: 10, textAlign: 'left'}}>
             更新时间 {_.createOn.split(/[T|]/)[0]}

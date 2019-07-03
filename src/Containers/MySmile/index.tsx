@@ -3,7 +3,7 @@ import { GetSmile } from '../../server/api'
 import { ApiInterface } from '../../interface/api'
 import { Card } from 'antd'
 import { RouterProps } from '../../interface/router'
-import MasonryLayout from '../../hook/MasonaryLayout'
+import MasonryLayout from '../../hoc/MasonaryLayout'
 import ScrollLoading from '../../hoc/ScrollLoading'
 
 const Loading = lazy(() => import('../../router/Loading'))
