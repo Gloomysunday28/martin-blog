@@ -4,11 +4,28 @@ import {
   Card
 } from 'antd'
 import ScrollLoading from '../../hoc/ScrollLoading'
-import records from '../../store/MyRecord'
+import { recordObj, records} from '../../store/MyRecord'
 import {observer} from 'mobx-react'
 
+type IProps = {
+  getRef: () => void,
+  getNext: () => void,
+  getTotal: (e: number) => void
+}
+
 @observer
-class MyRecord extends React.Component<{getRef: () => void}, {}> {
+class MyRecord extends React.Component<IProps, {}> {
+  componentWillMount() {
+    this.props.getRef && this.props.getRef()
+    this.props.getTotal && this.props.getTotal(recordObj.total)
+  }
+
+  getData = (page: number) => {
+    recordObj.page = page
+    recordObj.next = true
+    this.props.getNext()
+  }
+
   render() {
     return <div>
       {records.map(<T extends Partial<{[propsName: string]: any}>>(_: T) => (

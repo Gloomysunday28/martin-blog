@@ -31,7 +31,8 @@ let throttle: Ithrottle = function(fn, wait) { // 函数节流
 
 type Istate = {
   page: number,
-  next: boolean
+  next: boolean,
+  total: number
 }
 
 const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.ComponentType<T> ) : React.ComponentType<T> => (
@@ -49,7 +50,8 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
 
     readonly state = {
       page: 1,
-      next: true
+      next: true,
+      total: 0
     }
 
     getRef = (e: React.RefObject<HTMLInputElement>) => {
@@ -66,8 +68,16 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
     }
 
     getNext = () => {
+      if (this.state.page * 10 > this.state.total) this.finish = true
       this.setState(() => ({
         next: true
+      }))
+    }
+
+    getTotal = (total: number) => {
+      if (this.state.page * 10 > this.state.total) this.finish = true
+      this.setState(() => ({
+        total
       }))
     }
 
@@ -81,7 +91,6 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
       if (this.state.next && current &&current.getData) {
         if (clientHeight + scrollTop + 200 > scrollHeight) {
           if (this.finish) {
-            
           } else {
             this.setState((state: Istate) => ({
               next: false,
@@ -95,11 +104,13 @@ const ScrollLoading = <T extends Partial<object>>( WrapperComponent: React.Compo
     }
 
     componentWillUnmount() {
-      this.OMain.removeEventListener('scroll', this.getThrottleEvent)
+      if (this.OMain) {
+        this.OMain.removeEventListener('scroll', this.getThrottleEvent)
+      }
     }
 
     render() {
-      const commonProps = {getRef: this.getRef, getNext: this.getNext, ...this.props}
+      const commonProps = {getTotal: this.getTotal, getRef: this.getRef, getNext: this.getNext, ...this.props}
       return <div>
         <WrapperComponent ref={this.childRef} {...commonProps} />
         {!this.state.next && <Loading />}

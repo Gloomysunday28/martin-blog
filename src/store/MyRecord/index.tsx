@@ -1,26 +1,41 @@
-import {observable, when} from 'mobx'
+import {observable, when, reaction} from 'mobx'
 import { GetRecord } from '../../server/api'
 
-// const recordObj = observable.object({
-//   next: true,
-//   records: []
-// }, {
-//   next: observable,
-//   records: observable
-// })
+const recordObj = observable.object({
+  next: true,
+  page: 1,
+  total: 0
+}, {
+  next: observable,
+  page: observable,
+  total: observable
+})
 
-// console.log(Object.prototype.toString.call(recordObj.records)
+// autorun(() => {console.log(1, recordObj)})
+// recordObj.page = 3
 
 const records = observable.array()
 
-// 当records为空时就会执行
+function getData() {
+  recordObj.next = false
+  GetRecord(recordObj.page).then((res: any) => {
+    records.push(...res.data.items)
+    recordObj.total = res.data.page.total
+  })
+}
+
+// 初始化
 when (
-  () => !records.length,
-  () => {
-    GetRecord(1).then((res: any) => {
-      records.push(...res.data.items)
-    })
-  }
+  () => !!recordObj.next,
+  getData
 )
 
-export default records
+reaction (
+  () => recordObj.next,
+  getData
+)
+
+export {
+  recordObj,
+  records
+}
