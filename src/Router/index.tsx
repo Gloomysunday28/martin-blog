@@ -4,7 +4,7 @@ import loading from './Loading'
 import Loadable from 'react-loadable'
 
 import App from '../containers/App'
-import Login from '../containers/Login'z
+import Login from '../containers/Login'
 
 const RouterList: {
   path: string,
